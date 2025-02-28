@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Swiggy</string>
+
+    <!-- Navigation Menu-->
+    <string name="home">Home</string>
+    <string name="food">Food</string>
+    <string name="instamart">Instamart</string>
+    <string name="dineout">Dineout</string>
+    <string name="genie">Genie</string>
+</resources>
