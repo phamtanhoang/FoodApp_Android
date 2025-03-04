@@ -2,33 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/homeFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="@string/home">
-    </item>
+        android:icon="@drawable/icon_swiggy"
+        android:title="@string/swiggy" />
+
     <item
         android:id="@+id/foodFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="@string/food">
-    </item>
+        android:icon="@drawable/icon_food"
+        android:title="@string/food" />
+
     <item
         android:id="@+id/instamartFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="@string/instamart">
-    </item>
+        android:icon="@drawable/icon_instamart"
+        android:title="@string/instamart" />
+
     <item
         android:id="@+id/dineoutFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="@string/dineout">
-    </item>
+        android:icon="@drawable/icon_dineout"
+        android:title="@string/dineout" />
+
     <item
         android:id="@+id/genieFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="@string/genie">
-    </item>
+        android:icon="@drawable/icon_genie"
+        android:title="@string/genie" />
 
 </menu>

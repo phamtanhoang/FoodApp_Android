@@ -2,7 +2,7 @@
     <string name="app_name">Swiggy</string>
 
     <!-- Navigation Menu-->
-    <string name="home">Trang chủ</string>
+    <string name="swiggy">Swiggy</string>
     <string name="food">Món ăn</string>
     <string name="instamart">Instamart</string>
     <string name="dineout">Ăn tối</string>

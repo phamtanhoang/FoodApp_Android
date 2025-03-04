@@ -20,10 +20,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/main_nav_graph" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/top_shadow_gradient"
+        android:translationZ="100sp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav_view"
         android:layout_width="0dp"
-        android:layout_height="50sp"
+        android:layout_height="55dp"
         android:background="@color/white"
         android:elevation="8dp"
         app:itemTextColor="@color/white"
@@ -33,184 +42,187 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/app_navbar" />
 
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/ll_navbar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:background="@color/white"
+        android:baselineAligned="false"
+        android:translationZ="100sp"
+        android:weightSum="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3sp"
-            android:background="@drawable/top_shadow_gradient"
-            android:translationZ="100sp" />
-
         <LinearLayout
-            android:id="@+id/ll_navbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:translationZ="100sp"
-            android:weightSum="1">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:gravity="center"
-                android:orientation="vertical">
+            <View
+                android:id="@+id/view_home"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/orange"
+                android:visibility="gone" />
 
-                <View
-                    android:id="@+id/view_home"
-                    android:layout_width="match_parent"
-                    android:layout_height="2sp"
-                    android:background="@color/orange"
-                    android:visibility="gone"></View>
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_marginBottom="5dp"
+                android:contentDescription="@string/swiggy"
+                android:src="@drawable/icon_swiggy" />
 
-                <ImageView
-                    android:layout_width="30sp"
-                    android:layout_height="30sp"
-                    android:src="@drawable/icon_swiggy"></ImageView>
+            <TextView
+                android:id="@+id/tv_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/swiggy_font_medium"
+                android:text="@string/swiggy"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/tv_home"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/swiggy_font_medium"
-                    android:text="Swiggy"
-                    android:textColor="@color/grey"
-                    android:textSize="12sp"></TextView>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <View
-                    android:id="@+id/view_food"
-                    android:layout_width="match_parent"
-                    android:layout_height="2sp"
-                    android:background="@color/orange"
-                    android:visibility="gone"></View>
-
-                <ImageView
-                    android:layout_width="30sp"
-                    android:layout_height="30sp"
-                    android:src="@drawable/icon_food"></ImageView>
-
-                <TextView
-                    android:id="@+id/tv_food"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/swiggy_font_medium"
-                    android:text="Food"
-                    android:textColor="@color/grey"
-                    android:textSize="12sp"></TextView>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <View
-                    android:id="@+id/view_instamart"
-                    android:layout_width="match_parent"
-                    android:layout_height="2sp"
-                    android:background="@color/orange"
-                    android:visibility="gone"></View>
-
-                <ImageView
-                    android:layout_width="30sp"
-                    android:layout_height="30sp"
-                    android:src="@drawable/icon_instamart"></ImageView>
-
-                <TextView
-                    android:id="@+id/tv_instamart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/swiggy_font_medium"
-                    android:text="Instamart"
-                    android:textColor="@color/grey"
-                    android:textSize="12sp"></TextView>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <View
-                    android:id="@+id/view_dineout"
-                    android:layout_width="match_parent"
-                    android:layout_height="2sp"
-                    android:background="@color/orange"
-                    android:visibility="gone"></View>
-
-                <ImageView
-                    android:layout_width="20sp"
-                    android:layout_height="30sp"
-                    android:src="@drawable/icon_dineout"></ImageView>
-
-                <TextView
-                    android:id="@+id/tv_dineout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/swiggy_font_medium"
-                    android:text="Dineout"
-                    android:textColor="@color/grey"
-                    android:textSize="12sp"></TextView>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <View
-                    android:id="@+id/view_genie"
-                    android:layout_width="match_parent"
-                    android:layout_height="2sp"
-                    android:background="@color/orange"
-                    android:visibility="gone"></View>
-
-                <ImageView
-                    android:layout_width="30sp"
-                    android:layout_height="30sp"
-                    android:src="@drawable/icon_genie"></ImageView>
-
-                <TextView
-                    android:id="@+id/tv_genie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/swiggy_font_medium"
-                    android:text="Genie"
-                    android:textColor="@color/grey"
-                    android:textSize="12sp"></TextView>
-
-
-            </LinearLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/view_food"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/orange"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_marginBottom="5dp"
+
+                android:contentDescription="@string/food"
+                android:src="@drawable/icon_food" />
+
+            <TextView
+                android:id="@+id/tv_food"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/swiggy_font_medium"
+                android:text="@string/food"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/view_instamart"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/orange"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_marginBottom="5dp"
+
+                android:contentDescription="@string/instamart"
+                android:src="@drawable/icon_instamart" />
+
+            <TextView
+                android:id="@+id/tv_instamart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/swiggy_font_medium"
+                android:text="@string/instamart"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/view_dineout"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/orange"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="20sp"
+                android:layout_height="30sp"
+                android:layout_marginBottom="5dp"
+
+                android:contentDescription="@string/dineout"
+                android:src="@drawable/icon_dineout" />
+
+            <TextView
+                android:id="@+id/tv_dineout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/swiggy_font_medium"
+                android:text="@string/dineout"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/view_genie"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/orange"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_marginBottom="5dp"
+
+                android:contentDescription="@string/genie"
+                android:src="@drawable/icon_genie" />
+
+            <TextView
+                android:id="@+id/tv_genie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/swiggy_font_medium"
+                android:text="@string/genie"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
