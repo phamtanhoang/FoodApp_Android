@@ -42,10 +42,4 @@ object Utils{
 
         return !(!hasUpperCase || !hasDigitCharacter || !hasLowerCase || !hasSpecialCharacter)
     }
-
-    fun hideSoftKeyboard(view: View, context: Context) {
-        val imm: InputMethodManager? =
-            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-        imm?.hideSoftInputFromWindow(view.windowToken, 0)
-    }
 }

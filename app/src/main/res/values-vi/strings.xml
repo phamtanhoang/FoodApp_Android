@@ -1,10 +1,24 @@
  <resources>
     <string name="app_name">Swiggy</string>
 
-    <!-- Navigation Menu-->
-    <string name="swiggy">Swiggy</string>
-    <string name="food">Món ăn</string>
-    <string name="instamart">Instamart</string>
-    <string name="dineout">Ăn tối</string>
-    <string name="genie">Genie</string>
+     <!-- Start Auth -->
+     <string name="sign_in">Đăng nhập</string>
+     <string name="sign_up">Đăng ký</string>
+     <string name="email">Email</string>
+     <string name="password">Mật khẩu</string>
+     <string name="remember_me">Ghi nhớ</string>
+     <string name="forgot_password">Quên mật khẩu?</string>
+     <string name="dont_have_account">Chưa có tài khoản?</string>
+     <string name="i_have_account">Tôi đã có tài khoản.</string>
+     <!-- End Auth -->
+
+
+     <!-- Start Navigation Menu -->
+     <string name="swiggy">Swiggy</string>
+     <string name="food">Món ăn</string>
+     <string name="instamart">Instamart</string>
+     <string name="dineout">Ăn tối</string>
+     <string name="genie">Genie</string>
+     <!-- End Navigation Menu -->
+
 </resources>

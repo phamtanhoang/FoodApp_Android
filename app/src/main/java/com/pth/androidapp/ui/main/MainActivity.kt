@@ -1,18 +1,15 @@
 package com.pth.androidapp.ui.main
 
-import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pth.androidapp.R
 import com.pth.androidapp.base.activities.BaseActivity
 import com.pth.androidapp.databinding.ActivityMainBinding
@@ -24,132 +21,140 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
-
+    private val tabs = mutableListOf<Tab>()
+    private val fragmentToTab = mutableMapOf<Int, Tab>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setupView()
-    }
-
-    private fun setupView() {
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         setupWindowInsets(binding)
-
+        setupTabs()
         setupNavigation()
     }
 
-    private fun setupNavigation() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
+    private fun setupTabs() {
+        val homeTab = Tab(
+            container = binding.navHomeContainer,
+            indicator = binding.navHomeIndicator,
+            icon = binding.ivNavHome,
+            text = binding.tvNavHome,
+            fragmentId = R.id.homeFragment,
+            alwaysOrangeIcon = true,
+            statusBarColorRes = R.color.white,
+            isLightStatusBar = true
+        )
+        tabs.add(homeTab)
+        fragmentToTab[homeTab.fragmentId] = homeTab
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-        NavigationUI.setupWithNavController(bottomNavigationView, navController)
+        val foodTab = Tab(
+            container = binding.navFoodContainer,
+            indicator = binding.navFoodIndicator,
+            icon = binding.ivNavFood,
+            text = binding.tvNavFood,
+            fragmentId = R.id.foodFragment,
+            alwaysOrangeIcon = false,
+            statusBarColorRes = R.color.white,
+            isLightStatusBar = true
+        )
+        tabs.add(foodTab)
+        fragmentToTab[foodTab.fragmentId] = foodTab
 
-        navController.addOnDestinationChangedListener{ _, destination, _ ->
-            var textViewId: TextView = binding.tvHome
-            when (destination.id){
-                R.id.homeFragment -> {
-                    window.statusBarColor = getColor(R.color.white)
+        val instamartTab = Tab(
+            container = binding.navInstamartContainer,
+            indicator = binding.navInstamartIndicator,
+            icon = binding.ivNavInstamart,
+            text = binding.tvNavInstamart,
+            fragmentId = R.id.instamartFragment,
+            alwaysOrangeIcon = false,
+            statusBarColorRes = R.color.bg_pink,
+            isLightStatusBar = true
+        )
+        tabs.add(instamartTab)
+        fragmentToTab[instamartTab.fragmentId] = instamartTab
 
-                    window.decorView.windowInsetsController?.setSystemBarsAppearance(APPEARANCE_LIGHT_STATUS_BARS, APPEARANCE_LIGHT_STATUS_BARS)
-                    textViewId = binding.tvHome
-                    binding.viewHome.visibility = View.VISIBLE
-                    binding.viewFood.visibility = View.GONE
-                    binding.viewInstamart.visibility = View.GONE
-                    binding.viewDineout.visibility = View.GONE
-                    binding.viewGenie.visibility = View.GONE
-                    binding.tvFood.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvFood.typeface, Typeface.NORMAL)
-                    binding.tvInstamart.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvInstamart.typeface, Typeface.NORMAL)
-                    binding.tvDineout.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvDineout.typeface, Typeface.NORMAL)
-                    binding.tvGenie.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvGenie.typeface, Typeface.NORMAL)
-                }
-                R.id.foodFragment -> {
-                    window.statusBarColor = getColor(R.color.white)
-                    window.decorView.windowInsetsController?.setSystemBarsAppearance(APPEARANCE_LIGHT_STATUS_BARS, APPEARANCE_LIGHT_STATUS_BARS)
-                    textViewId = binding.tvFood
-                    binding.viewHome.visibility = View.GONE
-                    binding.viewFood.visibility = View.VISIBLE
-                    binding.viewInstamart.visibility = View.GONE
-                    binding.viewDineout.visibility = View.GONE
-                    binding.viewGenie.visibility = View.GONE
-                    binding.tvHome.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvHome.typeface, Typeface.NORMAL)
-                    binding.tvInstamart.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvInstamart.typeface, Typeface.NORMAL)
-                    binding.tvDineout.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvDineout.typeface, Typeface.NORMAL)
-                    binding.tvGenie.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvGenie.typeface, Typeface.NORMAL)
-                }
-                R.id.instamartFragment -> {
-                    window.statusBarColor = getColor(R.color.bg_pink)
-                    window.decorView.windowInsetsController?.setSystemBarsAppearance(APPEARANCE_LIGHT_STATUS_BARS, APPEARANCE_LIGHT_STATUS_BARS)
-                    textViewId = binding.tvInstamart
-                    binding.viewHome.visibility = View.GONE
-                    binding.viewFood.visibility = View.GONE
-                    binding.viewInstamart.visibility = View.VISIBLE
-                    binding.viewDineout.visibility = View.GONE
-                    binding.viewGenie.visibility = View.GONE
-                    binding.tvHome.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvHome.typeface, Typeface.NORMAL)
-                    binding.tvFood.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvFood.typeface, Typeface.NORMAL)
-                    binding.tvDineout.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvDineout.typeface, Typeface.NORMAL)
-                    binding.tvGenie.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvGenie.typeface, Typeface.NORMAL)
-                }
-                R.id.dineoutFragment -> {
-                    window.statusBarColor = getColor(R.color.black)
-                    window.decorView.windowInsetsController?.setSystemBarsAppearance(0, APPEARANCE_LIGHT_STATUS_BARS)
-                    textViewId = binding.tvDineout
-                    binding.viewHome.visibility = View.GONE
-                    binding.viewFood.visibility = View.GONE
-                    binding.viewInstamart.visibility = View.GONE
-                    binding.viewDineout.visibility = View.VISIBLE
-                    binding.viewGenie.visibility = View.GONE
-                    binding.tvHome.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvHome.typeface, Typeface.NORMAL)
-                    binding.tvFood.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvFood.typeface, Typeface.NORMAL)
-                    binding.tvInstamart.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvInstamart.typeface, Typeface.NORMAL)
-                    binding.tvGenie.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvGenie.typeface, Typeface.NORMAL)
-                }
-                R.id.genieFragment -> {
-                    window.statusBarColor = getColor(R.color.bg_violet)
-                    window.decorView.windowInsetsController?.setSystemBarsAppearance(APPEARANCE_LIGHT_STATUS_BARS, APPEARANCE_LIGHT_STATUS_BARS)
-                    textViewId = binding.tvGenie
-                    binding.viewHome.visibility = View.GONE
-                    binding.viewFood.visibility = View.GONE
-                    binding.viewInstamart.visibility = View.GONE
-                    binding.viewDineout.visibility = View.GONE
-                    binding.viewGenie.visibility = View.VISIBLE
-                    binding.tvHome.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvHome.typeface, Typeface.NORMAL)
-                    binding.tvFood.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvFood.typeface, Typeface.NORMAL)
-                    binding.tvInstamart.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvInstamart.typeface, Typeface.NORMAL)
-                    binding.tvDineout.setTextColor(ContextCompat.getColor(this, R.color.dark_grey))
-                    textViewId.typeface = Typeface.create(binding.tvDineout.typeface, Typeface.NORMAL)
-                }
-            }
+        val dineoutTab = Tab(
+            container = binding.navDineoutContainer,
+            indicator = binding.navDineoutIndicator,
+            icon = binding.ivNavDineout,
+            text = binding.tvNavDineout,
+            fragmentId = R.id.dineoutFragment,
+            alwaysOrangeIcon = false,
+            statusBarColorRes = R.color.black,
+            isLightStatusBar = false
+        )
+        tabs.add(dineoutTab)
+        fragmentToTab[dineoutTab.fragmentId] = dineoutTab
 
-            textViewId.setTextColor(Color.BLACK)
-            textViewId.typeface = Typeface.create(binding.tvHome.typeface, Typeface.BOLD)
-        }
-
+        val genieTab = Tab(
+            container = binding.navGenieContainer,
+            indicator = binding.navGenieIndicator,
+            icon = binding.ivNavGenie,
+            text = binding.tvNavGenie,
+            fragmentId = R.id.genieFragment,
+            alwaysOrangeIcon = false,
+            statusBarColorRes = R.color.bg_violet,
+            isLightStatusBar = true
+        )
+        tabs.add(genieTab)
+        fragmentToTab[genieTab.fragmentId] = genieTab
     }
 
 
+    private fun resetAllViews() {
+        for (tab in tabs) {
+            tab.indicator.visibility = View.GONE
+            updateTabStyle(tab, false)
+        }
+    }
+
+    private fun updateUIForDestination(destinationId: Int) {
+        val tab = fragmentToTab[destinationId] ?: return
+        resetAllViews()
+        tab.indicator.visibility = View.VISIBLE
+        updateTabStyle(tab, true)
+    }
+
+    private fun updateTabStyle(tab: Tab, isSelected: Boolean) {
+        val textColorRes = if (isSelected) R.color.orange else R.color.dark_grey
+        tab.text.setTextColor(ContextCompat.getColor(this, textColorRes))
+        tab.text.typeface =
+            Typeface.create(tab.text.typeface, if (isSelected) Typeface.BOLD else Typeface.NORMAL)
+
+        val iconColorRes =
+            if (isSelected || tab.alwaysOrangeIcon) R.color.orange else R.color.dark_grey
+        tab.icon.setColorFilter(
+            ContextCompat.getColor(this, iconColorRes),
+            PorterDuff.Mode.SRC_IN
+        )
+    }
+
+    private fun setupNavigation() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            updateUIForDestination(destination.id)
+            updateStatusBar(destination.id)
+        }
+
+        for (tab in tabs) {
+            tab.container.setOnClickListener {
+                navController.navigate(tab.fragmentId)
+            }
+        }
+    }
+
+    private fun updateStatusBar(destinationId: Int) {
+        val tab = fragmentToTab[destinationId] ?: return
+        window.statusBarColor = ContextCompat.getColor(this, tab.statusBarColorRes)
+        val appearance =
+            if (tab.isLightStatusBar) APPEARANCE_LIGHT_STATUS_BARS else 0
+        window.decorView.windowInsetsController?.setSystemBarsAppearance(
+            appearance,
+            APPEARANCE_LIGHT_STATUS_BARS
+        )
+    }
 }
