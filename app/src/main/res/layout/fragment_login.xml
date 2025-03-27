@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
-                app:errorText="@{viewModel.email.error}">
+                app:errorMessage="@{viewModel.email.error}">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tiet_email"
@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                app:errorText="@{viewModel.password.error}">
+                app:errorMessage="@{viewModel.password.error}">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tiet_password"

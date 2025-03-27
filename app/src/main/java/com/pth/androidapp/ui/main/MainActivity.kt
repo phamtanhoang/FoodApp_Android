@@ -149,12 +149,22 @@ class MainActivity : BaseActivity() {
 
     private fun updateStatusBar(destinationId: Int) {
         val tab = fragmentToTab[destinationId] ?: return
-        window.statusBarColor = ContextCompat.getColor(this, tab.statusBarColorRes)
-        val appearance =
-            if (tab.isLightStatusBar) APPEARANCE_LIGHT_STATUS_BARS else 0
-        window.decorView.windowInsetsController?.setSystemBarsAppearance(
-            appearance,
-            APPEARANCE_LIGHT_STATUS_BARS
-        )
+
+//        window.statusBarColor = ContextCompat.getColor(this, tab.statusBarColorRes)
+
+        val windowInsetsController = window.decorView.windowInsetsController
+        if (windowInsetsController != null) {
+            if (tab.isLightStatusBar) {
+                windowInsetsController.setSystemBarsAppearance(
+                    APPEARANCE_LIGHT_STATUS_BARS,
+                    APPEARANCE_LIGHT_STATUS_BARS
+                )
+            } else {
+                windowInsetsController.setSystemBarsAppearance(
+                    0, // Reset to default appearance
+                    APPEARANCE_LIGHT_STATUS_BARS
+                )
+            }
+        }
     }
 }
