@@ -1,4 +1,4 @@
 package com.pth.androidapp.data.models.login
 
-class LoginResponse {
-}
+data class LoginResponse (val email: String, val userId: String)
+

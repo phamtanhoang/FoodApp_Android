@@ -5,4 +5,6 @@ object Constants {
         "Tiếng Việt" to "vi",
         "English" to "en"
     )
+
+    val debounceTime = 500L
 }

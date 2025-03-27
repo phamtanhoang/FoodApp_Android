@@ -1,24 +1,40 @@
- <resources>
+<resources>
     <string name="app_name">Swiggy</string>
 
-     <!-- Start Auth -->
-     <string name="sign_in">Đăng nhập</string>
-     <string name="sign_up">Đăng ký</string>
-     <string name="email">Email</string>
-     <string name="password">Mật khẩu</string>
-     <string name="remember_me">Ghi nhớ</string>
-     <string name="forgot_password">Quên mật khẩu?</string>
-     <string name="dont_have_account">Chưa có tài khoản?</string>
-     <string name="i_have_account">Tôi đã có tài khoản.</string>
-     <!-- End Auth -->
+    <!-- Start Auth -->
+    <string name="sign_in">Đăng nhập</string>
+    <string name="sign_up">Đăng ký</string>
+    <string name="email">Email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="confirm_password">Xác nhận mật khẩu</string>
+    <string name="remember_me">Ghi nhớ</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="dont_have_account">Chưa có tài khoản?</string>
+    <string name="i_have_account">Tôi đã có tài khoản.</string>
+    <!-- End Auth -->
 
 
-     <!-- Start Navigation Menu -->
-     <string name="swiggy">Swiggy</string>
-     <string name="food">Món ăn</string>
-     <string name="instamart">Instamart</string>
-     <string name="dineout">Ăn tối</string>
-     <string name="genie">Genie</string>
-     <!-- End Navigation Menu -->
+    <!-- Start Navigation Menu -->
+    <string name="swiggy">Swiggy</string>
+    <string name="food">Món ăn</string>
+    <string name="instamart">Instamart</string>
+    <string name="dineout">Ăn tối</string>
+    <string name="genie">Genie</string>
+    <!-- End Navigation Menu -->
 
+    <string name="email_not_empty">Email không được để trống</string>
+    <string name="email_not_valid">Email không hợp lệ</string>
+    <string name="password_not_empty">Mật khẩu không được để trống</string>
+    <string name="password_not_valid">Mật khẩu không hợp lệ</string>
+    <string name="error_invalid_credentials">Sai thông tin đăng nhập</string>
+    <string name="error_user_not_found">Tài khoản không tồn tại</string>
+    <string name="error_unknown">Lỗi không xác định</string>
+
+    <string name="ok">Đồng ý</string>
+    <string name="cancel">Hủy bỏ</string>
+    <string name="success">Thành công</string>
+    <string name="warning">Cảnh báo</string>
+    <string name="error">Thất bại</string>
+    <string name="infomation">Thông tin</string>
+    <string name="loading">Đang tải</string>
 </resources>

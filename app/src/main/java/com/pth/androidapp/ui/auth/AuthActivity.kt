@@ -1,4 +1,4 @@
-package com.pth.androidapp.ui.auth.fragments
+package com.pth.androidapp.ui.auth
 
 import android.os.Bundle
 import com.pth.androidapp.base.activities.BaseActivity

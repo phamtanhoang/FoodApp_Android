@@ -1,12 +1,14 @@
 package com.pth.androidapp.ui.auth.fragments.register
 
+import androidx.lifecycle.MutableLiveData
 import com.pth.androidapp.base.viewmodels.BaseViewModel
-import com.pth.androidapp.data.repositories.AuthRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.pth.androidapp.common.TextFieldState
 
-@HiltViewModel
-class RegisterViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
-): BaseViewModel() {
+class RegisterViewModel: BaseViewModel() {
+
+    val email = MutableLiveData(TextFieldState(text = ""))
+    val password = MutableLiveData(TextFieldState(text = ""))
+    val confirmPassword = MutableLiveData(TextFieldState(text = ""))
+
+    fun register() {}
 }

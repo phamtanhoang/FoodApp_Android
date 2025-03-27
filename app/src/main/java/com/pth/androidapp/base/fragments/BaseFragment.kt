@@ -21,21 +21,19 @@ open class BaseFragment : Fragment() {
         }
     }
 
-    protected fun showLoadingMore(isShow: Boolean) {
-
-    }
-
-    protected fun showNotify(
+    protected fun showNotifyDialog(
         type: NotifyType,
-        title: String,
-        message: String
+        message: String,
+        textButton: String? = null,
+        callback: () -> Unit = {}
     ) {
         val activity = requireActivity()
         if (activity is BaseActivity) {
             activity.showNotifyDialog(
-                type = type,
-                title = title,
-                message = message
+                type,
+                message,
+                textButton,
+                callback
             )
         }
     }

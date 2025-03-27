@@ -4,16 +4,22 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import com.pth.androidapp.R
 import com.pth.androidapp.databinding.DialogConfirmBinding
 
 class ConfirmDialog(
     context: Context,
     private val title: String,
-    private val message: String?,
-    private val positiveButtonTitle: String,
-    private val negativeButtonTitle: String,
-    private val callback: ConfirmCallback?,
+    private val message: String? = null,
+    private val positiveButtonTitle: String = context.getString(R.string.ok),
+    private val negativeButtonTitle: String = context.getString(R.string.cancel),
+    private val callbackNegative: () -> Unit = {},
+    private val callbackPositive: () -> Unit = {},
 ) : Dialog(context) {
+
+    init {
+        setCancelable(false)
+    }
 
     private var _binding: DialogConfirmBinding? = null
     private val binding get() = _binding!!
@@ -30,9 +36,11 @@ class ConfirmDialog(
     private fun setupViews() {
         binding.apply {
             tvTitle.text = title
-            message?.let {
+            if (message != null) {
                 tvContent.visibility = View.VISIBLE
                 tvContent.text = message
+            } else {
+                tvContent.visibility = View.GONE
             }
             btnNegative.text = negativeButtonTitle
             btnPositive.text = positiveButtonTitle
@@ -42,13 +50,12 @@ class ConfirmDialog(
     private fun setupListeners() {
         binding.apply {
             btnNegative.setOnClickListener {
-                callback?.negativeAction()
+                callbackNegative()
                 dismiss()
             }
             btnPositive.setOnClickListener {
-                callback?.positiveAction()
+                callbackPositive()
                 dismiss()
-
             }
         }
     }
@@ -56,10 +63,5 @@ class ConfirmDialog(
     override fun dismiss() {
         super.dismiss()
         _binding = null
-    }
-
-    interface ConfirmCallback {
-        fun negativeAction()
-        fun positiveAction()
     }
 }

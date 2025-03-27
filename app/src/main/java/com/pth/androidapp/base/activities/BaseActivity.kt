@@ -10,11 +10,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewbinding.ViewBinding
 import com.pth.androidapp.base.dialogs.ConfirmDialog
+import com.pth.androidapp.base.dialogs.LoadingDialog
 import com.pth.androidapp.base.dialogs.NotifyDialog
 import com.pth.androidapp.base.dialogs.NotifyType
 
 
 open class BaseActivity : AppCompatActivity() {
+    private var loadingDialog: LoadingDialog? = null
 
     open fun setupWindowInsets(binding: ViewBinding) {
         enableEdgeToEdge()
@@ -32,21 +34,29 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     open fun showLoading(isShow: Boolean) {
-
+        if (isShow) {
+            if (loadingDialog == null) {
+                loadingDialog = LoadingDialog(this)
+            }
+            loadingDialog?.show()
+        } else {
+            loadingDialog?.dismiss()
+            loadingDialog = null
+        }
     }
 
     open fun showNotifyDialog(
         type: NotifyType,
         message: String,
-        title: String,
-        textButton: String? = null
+        textButton: String? = null,
+        callback: () -> Unit = {}
     ) {
         val notifyDialog = NotifyDialog(
-            type = type,
             context = this,
-            title = title,
-            message = message,
-            textButton = textButton
+            type,
+            message,
+            textButton,
+            callback
         )
         notifyDialog.show()
         notifyDialog.window?.setGravity(Gravity.CENTER)
@@ -62,15 +72,17 @@ open class BaseActivity : AppCompatActivity() {
         positiveButtonTitle: String,
         negativeButtonTitle: String,
         textButton: String?,
-        callback: ConfirmDialog.ConfirmCallback
+        callbackNegative: () -> Unit = {},
+        callbackPositive: () -> Unit = {},
     ) {
         val confirmDialog = ConfirmDialog(
             context = this,
-            title = title,
-            message = message,
-            positiveButtonTitle = positiveButtonTitle,
-            negativeButtonTitle = negativeButtonTitle,
-            callback = callback
+            title,
+            message,
+            positiveButtonTitle,
+            negativeButtonTitle,
+            callbackNegative,
+            callbackPositive
         )
         confirmDialog.show()
         confirmDialog.window?.setGravity(Gravity.CENTER)

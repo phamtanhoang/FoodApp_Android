@@ -1,7 +1,5 @@
 package com.pth.androidapp.base.network
 
-import android.util.Log
-import com.pth.androidapp.ui.auth.fragments.jsonPlaceHolder.JsonPlaceHolderFragment.Companion.JsonPlaceHolderTAG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -26,7 +24,6 @@ open class BaseRemoteService {
                     } else {
                         emit(
                             NetworkResult.Error(
-                                code = response.code(),
                                 message = response.message()
                             )
                         )
@@ -34,12 +31,11 @@ open class BaseRemoteService {
                 } catch (e: Exception) {
                     emit(
                         NetworkResult.Error(
-                            code = 400,
                             message = e.message ?: "Something went wrong!"
                         )
                     )
                 }
-            } ?: emit(NetworkResult.Error(code = 408, message = "Timeout! Please try again."))
+            } ?: emit(NetworkResult.Error(message = "Timeout! Please try again."))
         }.flowOn(Dispatchers.IO)
     }
 }
