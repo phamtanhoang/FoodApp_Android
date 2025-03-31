@@ -37,7 +37,7 @@ class SplashActivity : BaseActivity() {
         binding.videoView.setOnPreparedListener { it.start() }
         binding.videoView.setOnCompletionListener {
             overridePendingTransition(R.anim.slide_up, 0)
-            navigateToActivity(MainActivity::class.java)
+            navigateToActivity(AuthActivity::class.java)
         }
     }
 

@@ -59,24 +59,19 @@ class AuthRepositoryImpl @Inject constructor(
     ): Flow<NetworkResult<RegisterResponse>> = flow {
         emit(NetworkResult.Loading)
         try {
-            Log.d("123123", "register: $email $password")
             val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-            Log.d("123123", "authResult: $authResult")
 
             val user = authResult.user
                 ?: throw Exception(context.getString(R.string.authentication_succeeded_but_user_is_null))
-            Log.d("123123", "user: $user")
 
             val registerResponse = RegisterResponse(
                 email = user.email ?: "",
                 userId = user.uid,
                 message = context.getString(R.string.registration_success)
             )
-            Log.d("123123", "registerResponse: $registerResponse")
 
             emit(NetworkResult.Success(registerResponse))
         } catch (e: Exception) {
-            Log.d("123123", "register: $e")
 
             val errorMessage = when (e) {
                 is FirebaseAuthInvalidCredentialsException ->
