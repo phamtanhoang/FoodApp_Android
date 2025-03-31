@@ -36,6 +36,7 @@ class LoginFragment : BaseFragment() {
 
         setupUI()
         setupObservers()
+
     }
 
     private fun setupUI() = with(binding) {

@@ -40,7 +40,7 @@ class NotifyDialog(
                 NotifyType.SUCCESS -> tvTitle.text = context.getString(R.string.success)
                 NotifyType.WARNING -> tvTitle.text = context.getString(R.string.warning)
                 NotifyType.ERROR -> tvTitle.text = context.getString(R.string.error)
-                NotifyType.INFO -> tvTitle.text = context.getString(R.string.infomation)
+                NotifyType.INFO -> tvTitle.text = context.getString(R.string.information)
             }
         }
     }

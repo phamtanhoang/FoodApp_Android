@@ -35,7 +35,16 @@
     <string name="success">Success</string>
     <string name="warning">Warning</string>
     <string name="error">Error</string>
-    <string name="infomation">Infomation</string>
+    <string name="information">Information</string>
     <string name="loading">Loading</string>
+    <string name="authentication_succeeded_but_user_is_null">Authentication succeeded but user is null</string>
+    <string name="login_failed">Login failed</string>
+    <string name="failed_to_check_login_status">Failed to check login status</string>
+    <string name="user_already_exists">User already exists</string>
+    <string name="registration_failed">Registration failed</string>
+    <string name="registration_success">Registration success</string>
+    <string name="logout_failed">Logout failed</string>
+    <string name="logout_success">Logout success</string>
+    <string name="password_not_match">Password not match</string>
 
 </resources>

@@ -2,7 +2,6 @@ package com.pth.androidapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.pth.androidapp.common.TokenManager
 import com.pth.androidapp.data.database.AppDatabase
 import com.pth.androidapp.data.database.AppDatabase.Companion.DATABASE_NAME
 import com.pth.androidapp.data.database.daos.UserDao
@@ -16,12 +15,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object LocalModule {
-
-    @Singleton
-    @Provides
-    fun provideTokenManager(@ApplicationContext context: Context): TokenManager {
-        return TokenManager(context)
-    }
 
     @Provides
     @Singleton

@@ -35,6 +35,15 @@
     <string name="success">Thành công</string>
     <string name="warning">Cảnh báo</string>
     <string name="error">Thất bại</string>
-    <string name="infomation">Thông tin</string>
+    <string name="information">Thông tin</string>
     <string name="loading">Đang tải</string>
+    <string name="authentication_succeeded_but_user_is_null">Đăng nhập thành công nhưng người dùng không tồn tại</string>
+    <string name="login_failed">Đăng nhập không thành công</string>
+    <string name="failed_to_check_login_status">Không thể kiểm tra trạng thái đăng nhập</string>
+    <string name="user_already_exists">Người dùng đã tồn tại</string>
+    <string name="registration_failed">Đăng kí thất bại</string>
+    <string name="registration_success">Đăng kí thành công</string>
+    <string name="logout_failed">Đăng xuất không thành công</string>
+    <string name="logout_success">Đăng xuất thành công</string>
+    <string name="password_not_match">Mật khẩu không khớp</string>
 </resources>

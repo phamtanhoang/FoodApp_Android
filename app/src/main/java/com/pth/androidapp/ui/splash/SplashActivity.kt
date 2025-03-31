@@ -9,6 +9,7 @@ import com.pth.androidapp.databinding.ActivitySplashBinding
 import com.pth.androidapp.ui.auth.AuthActivity
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.net.toUri
+import com.pth.androidapp.ui.main.MainActivity
 
 @Suppress("DEPRECATION")
 @SuppressLint("CustomSplashScreen")
@@ -36,7 +37,7 @@ class SplashActivity : BaseActivity() {
         binding.videoView.setOnPreparedListener { it.start() }
         binding.videoView.setOnCompletionListener {
             overridePendingTransition(R.anim.slide_up, 0)
-            navigateToActivity(AuthActivity::class.java)
+            navigateToActivity(MainActivity::class.java)
         }
     }
 

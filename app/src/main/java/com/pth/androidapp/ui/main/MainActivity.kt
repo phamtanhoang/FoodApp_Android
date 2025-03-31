@@ -150,7 +150,7 @@ class MainActivity : BaseActivity() {
     private fun updateStatusBar(destinationId: Int) {
         val tab = fragmentToTab[destinationId] ?: return
 
-//        window.statusBarColor = ContextCompat.getColor(this, tab.statusBarColorRes)
+        window.statusBarColor = ContextCompat.getColor(this, tab.statusBarColorRes)
 
         val windowInsetsController = window.decorView.windowInsetsController
         if (windowInsetsController != null) {
