@@ -2,7 +2,6 @@ package com.pth.androidapp.ui.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import com.pth.androidapp.R
 import com.pth.androidapp.base.activities.BaseActivity
 import com.pth.androidapp.databinding.ActivitySplashBinding
@@ -20,15 +19,11 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setupView()
-        playSplashScreenVideo()
-    }
-
-    private fun setupView() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
         setupWindowInsets(binding)
+        playSplashScreenVideo()
     }
 
     private fun playSplashScreenVideo() {

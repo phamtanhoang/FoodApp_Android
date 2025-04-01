@@ -6,20 +6,26 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.pth.androidapp.R
 import com.pth.androidapp.base.activities.BaseActivity
+import com.pth.androidapp.base.network.NetworkResult
 import com.pth.androidapp.databinding.ActivityMainBinding
+import com.pth.androidapp.ui.auth.AuthActivity
+import com.pth.androidapp.ui.auth.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.getValue
 
 @AndroidEntryPoint
 @RequiresApi(Build.VERSION_CODES.R)
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private val viewModel: AuthViewModel by viewModels()
 
     private val tabs = mutableListOf<Tab>()
     private val fragmentToTab = mutableMapOf<Int, Tab>()
@@ -27,11 +33,33 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
+        checkLoginStatus()
+
+        setContentView(binding.root)
         setupWindowInsets(binding)
         setupTabs()
         setupNavigation()
+    }
+
+    private fun checkLoginStatus() {
+        viewModel.loginState.observe(this) { state ->
+            when (state) {
+                is NetworkResult.Success -> {
+                    showLoading(false)
+                    if (state.data != true) {
+                        navigateToActivity(AuthActivity::class.java)
+                    }
+                }
+                is NetworkResult.Loading -> {
+                    showLoading(true)
+                }
+                else -> {
+                    showLoading(false)
+                    navigateToActivity(AuthActivity::class.java)
+                }
+            }
+        }
     }
 
     private fun setupTabs() {
