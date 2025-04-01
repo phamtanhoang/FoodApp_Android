@@ -47,4 +47,9 @@
     <string name="logout_success">Logout success</string>
     <string name="password_not_match">Password not match</string>
 
+    <string name="select_language">Select Language</string>
+    <string name="english">English</string>
+    <string name="vietnamese">Vietnamese</string>
+    <string name="save">Save</string>
+    <string name="en_vi">EN/VI</string>
 </resources>

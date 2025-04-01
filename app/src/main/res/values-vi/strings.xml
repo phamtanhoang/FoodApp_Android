@@ -46,4 +46,11 @@
     <string name="logout_failed">Đăng xuất không thành công</string>
     <string name="logout_success">Đăng xuất thành công</string>
     <string name="password_not_match">Mật khẩu không khớp</string>
+
+    <string name="select_language">Chọn ngôn ngữ</string>
+    <string name="english">Tiếng Anh</string>
+    <string name="vietnamese">Tiếng Việt</string>
+    <string name="save">Lưu</string>
+    <string name="en_vi">EN/VI</string>
+
 </resources>

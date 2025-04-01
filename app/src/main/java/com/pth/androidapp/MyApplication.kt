@@ -1,10 +1,12 @@
 package com.pth.androidapp
 
 import android.app.Application
+import android.content.Context
+import com.pth.androidapp.common.LanguageUtils
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class HiltApplication: Application() {
+class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
     }
