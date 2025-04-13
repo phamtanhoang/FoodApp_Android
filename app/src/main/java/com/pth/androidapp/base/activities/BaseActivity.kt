@@ -1,7 +1,11 @@
 package com.pth.androidapp.base.activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.os.Build
+import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
@@ -13,10 +17,45 @@ import com.pth.androidapp.base.dialogs.ConfirmDialog
 import com.pth.androidapp.base.dialogs.LoadingDialog
 import com.pth.androidapp.base.dialogs.NotifyDialog
 import com.pth.androidapp.base.dialogs.NotifyType
+import com.pth.androidapp.common.LanguageManager
+import java.util.Locale
+import kotlin.text.compareTo
 
 
+@Suppress("DEPRECATION")
 open class BaseActivity : AppCompatActivity() {
     private var loadingDialog: LoadingDialog? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        applyLanguage()
+    }
+
+    override fun attachBaseContext(base: Context) {
+        val newContext = applyLocale(base)
+
+        super.attachBaseContext(newContext)
+    }
+
+    private fun applyLanguage() {
+        val languageManager = LanguageManager(this)
+        languageManager.setLanguage(languageManager.getCurrentLanguageCode())
+    }
+
+    private fun applyLocale(base: Context): Context {
+        val languageManager = LanguageManager(base)
+        val locale = Locale(languageManager.getCurrentLanguageCode())
+        val configuration = Configuration(base.resources.configuration).apply { setLocale(locale) }
+        return base.createConfigurationContext(configuration)
+    }
+
+    open fun restart() {
+        val intent = intent
+        finish()
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+    }
 
     open fun setupWindowInsets(binding: ViewBinding) {
         enableEdgeToEdge()
@@ -27,10 +66,34 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    open fun navigateToActivity(activityClass: Class<out Activity>) {
+    open fun navigateToActivity(
+        activityClass: Class<out Activity>,
+        extras: Bundle? = null,
+        flags: Int? = null,
+        finishCurrent: Boolean = true
+    ) {
         val intent = Intent(this, activityClass)
+        extras?.let { intent.putExtras(it) }
+        flags?.let { intent.flags = it }
         startActivity(intent)
-        finish()
+        if (finishCurrent) {
+            finish()
+        }
+    }
+
+    /**
+     * Launch an Activity with the returned result
+     */
+    open fun navigateToActivityForResult(
+        activityClass: Class<out Activity>,
+        requestCode: Int,
+        extras: Bundle? = null,
+        flags: Int? = null
+    ) {
+        val intent = Intent(this, activityClass)
+        extras?.let { intent.putExtras(it) }
+        flags?.let { intent.flags = it }
+        startActivityForResult(intent, requestCode)
     }
 
     open fun showLoading(isShow: Boolean) {
@@ -91,4 +154,6 @@ open class BaseActivity : AppCompatActivity() {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
+
+
 }

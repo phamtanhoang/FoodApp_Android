@@ -46,7 +46,10 @@ class RegisterFragment : BaseFragment() {
         tietConfirmPassword.setTextChangeListener(tilConfirmPassword, viewLifecycleOwner)
 
         navigateToLogin.setOnClickListener {
-            navigateToPage(R.id.action_registerFragment_to_loginFragment)
+            navigateToPageAndClearBackStack(
+                R.id.action_registerFragment_to_loginFragment,
+                R.id.nav_graph
+            )
         }
     }
 

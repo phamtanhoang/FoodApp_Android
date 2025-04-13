@@ -13,10 +13,6 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_main_nav_graph"
-            app:destination="@id/main_nav_graph"
-            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -29,7 +25,4 @@
             app:destination="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
-
-    <include app:graph="@navigation/main_nav_graph" />
-
 </navigation>

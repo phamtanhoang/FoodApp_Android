@@ -2,7 +2,6 @@ package com.pth.androidapp
 
 import android.app.Application
 import android.content.Context
-import com.pth.androidapp.common.LanguageUtils
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

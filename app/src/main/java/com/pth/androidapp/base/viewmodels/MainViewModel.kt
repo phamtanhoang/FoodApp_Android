@@ -1,4 +1,4 @@
-package com.pth.androidapp.ui.main
+package com.pth.androidapp.base.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,4 +27,5 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
 }

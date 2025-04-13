@@ -11,4 +11,10 @@
         android:text="Genie"
         android:textColor="@color/grey"
         android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
 </FrameLayout>

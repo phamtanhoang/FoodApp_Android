@@ -12,6 +12,7 @@ import com.pth.androidapp.R
 import com.pth.androidapp.base.dialogs.NotifyType
 import com.pth.androidapp.base.network.NetworkResult
 import com.pth.androidapp.common.Utils.setTextChangeListener
+import com.pth.androidapp.ui.main.MainActivity
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment() {
@@ -54,8 +55,7 @@ class LoginFragment : BaseFragment() {
 
             when (result) {
                 is NetworkResult.Success -> {
-                    navigateToPage(R.id.action_loginFragment_to_main_nav_graph)
-                }
+                    navigateToActivity(MainActivity::class.java)                }
                 is NetworkResult.Error -> {
                     showNotifyDialog(NotifyType.ERROR, result.message)
                 }
