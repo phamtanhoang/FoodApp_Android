@@ -51,5 +51,13 @@
     <string name="english">English</string>
     <string name="vietnamese">Vietnamese</string>
     <string name="save">Save</string>
-    <string name="en_vi">EN/VI</string>
+    <string name="avatar">Avatar</string>
+    <string name="location">Location</string>
+    <string name="home">Home</string>
+    <string name="search_for">Search for</string>
+    <string name="search">Search</string>
+    <string name="mic">Mic</string>
+    <string name="discover_swiggy">DISCOVER SWIGGY</string>
+    <string name="crafted_with_by_hoang_pham">Crafted with ❤️ by Hoang Pham</string>
+    <string name="live_nit_up">Live \nit up!</string>
 </resources>

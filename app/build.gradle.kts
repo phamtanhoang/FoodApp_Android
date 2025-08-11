@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
+    implementation(libs.firebase.firestore)
 
     // Unit Test
     testImplementation(libs.junit)
@@ -90,6 +91,10 @@ dependencies {
 
     implementation(libs.androidx.security.crypto)
 
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
+
+    implementation(libs.shimmer)
 }
 
 kapt {

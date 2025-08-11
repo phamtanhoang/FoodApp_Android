@@ -16,4 +16,6 @@
     <color name="hint_text_color">#B7B7B7</color>
     <color name="inactive_text_color">#8D8D8D</color>
     <color name="error_color">@android:color/holo_red_light</color>
+
+    <color name="shimmer_background">#DDDDDD</color>
 </resources>
