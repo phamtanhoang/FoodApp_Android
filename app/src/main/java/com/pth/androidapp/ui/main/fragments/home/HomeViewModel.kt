@@ -14,10 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val categoryRepository: CategoryRepository,
     private val imageSlideRepository: ImageSlideRepository
 ): BaseViewModel() {
-
     private val _imageSlideState = MutableStateFlow<NetworkResult<List<ImageSlide>>>(NetworkResult.Idle)
     val imageSlideState: StateFlow<NetworkResult<List<ImageSlide>>> = _imageSlideState.asStateFlow()
 
