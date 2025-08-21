@@ -47,6 +47,16 @@
                             android:paddingEnd="60dp"
                             android:visibility="visible" />
 
+                        <TextView
+                            android:id="@+id/tv_slider_error"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="#B00020"
+                            android:textSize="16sp"
+                            android:visibility="gone"
+                            android:text="@string/some_thing_went_wrong_please_try_again_later"
+                            tools:ignore="MissingConstraints" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </ScrollView>

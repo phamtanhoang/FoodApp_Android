@@ -1,48 +1,39 @@
 package com.pth.androidapp.ui.main.fragments.home.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
-import com.pth.androidapp.R
 import com.pth.androidapp.data.models.imageSlide.ImageSlide
+import com.pth.androidapp.databinding.ItemImageSlideBinding
 
-class ImageSlideAdapter(
-    private var slides: List<ImageSlide>,
-    private val viewPager2: ViewPager2
-) : RecyclerView.Adapter<ImageSlideAdapter.ImageViewHolder>() {
+class ImageSlideAdapter : ListAdapter<ImageSlide, ImageSlideAdapter.ImageViewHolder>(DiffCallback) {
 
-    inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val slideImage: ImageView = itemView.findViewById(R.id.slide_image)
-    }
+    inner class ImageViewHolder(val binding: ItemImageSlideBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_image_slide, parent, false)
-        return ImageViewHolder(view)
+        val binding = ItemImageSlideBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ImageViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = slides.size
-
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val slide = slides[position]
-        Glide.with(holder.itemView)
+        val slide = getItem(position % currentList.size)
+        Glide.with(holder.binding.root)
             .load(slide.imageUrl)
-            .into(holder.slideImage)
+            .into(holder.binding.slideImage)
+    }
 
-        if (position == slides.size - 1) {
-            viewPager2.post { notifyDataSetChanged() }
+    companion object {
+        private val DiffCallback = object : DiffUtil.ItemCallback<ImageSlide>() {
+            override fun areItemsTheSame(oldItem: ImageSlide, newItem: ImageSlide): Boolean = oldItem.imageUrl == newItem.imageUrl
+            override fun areContentsTheSame(oldItem: ImageSlide, newItem: ImageSlide): Boolean = oldItem == newItem
         }
     }
 
-    /**
-     * Updates the adapter's data and refreshes the ViewPager.
-     */
+    override fun getItemCount(): Int = if (currentList.isEmpty()) 0 else Int.MAX_VALUE
+
     fun setData(newSlides: List<ImageSlide>) {
-        slides = newSlides
-        notifyDataSetChanged()
+        submitList(newSlides)
     }
 }

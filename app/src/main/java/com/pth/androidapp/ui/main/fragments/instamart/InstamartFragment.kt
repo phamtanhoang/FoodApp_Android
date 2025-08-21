@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.pth.androidapp.R
 import com.pth.androidapp.base.fragments.BaseFragment
-import com.pth.androidapp.databinding.FragmentHomeBinding
 import com.pth.androidapp.databinding.FragmentInstamartBinding
 import dagger.hilt.android.AndroidEntryPoint
 

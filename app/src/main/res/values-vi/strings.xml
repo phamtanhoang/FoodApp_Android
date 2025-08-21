@@ -60,4 +60,7 @@
     <string name="discover_swiggy">KHÁM PHÁ SWIGGY</string>
     <string name="crafted_with_by_hoang_pham">Được tạo ra với ❤️ bởi Hoàng Phạm</string>
     <string name="live_nit_up">Tận hưởng \ncuộc sống!</string>
+
+    <string name="some_thing_went_wrong_please_try_again_later">Có lỗi xảy ra. Vui lòng thử lại sau!</string>
+
 </resources>

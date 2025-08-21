@@ -17,6 +17,7 @@ import com.pth.androidapp.base.network.NetworkResult
 import com.pth.androidapp.databinding.FragmentHomeBinding
 import com.pth.androidapp.ui.main.fragments.home.adapter.ImageSlideAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
@@ -28,53 +29,69 @@ class HomeFragment : BaseFragment() {
     private lateinit var handler: Handler
     private lateinit var slideAdapter: ImageSlideAdapter
 
+    companion object {
+        private const val AUTO_SLIDE_INTERVAL = 2500L
+        private const val INITIAL_POSITION = Int.MAX_VALUE / 2
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewPager2 = binding.vpSlideHome
-        handler = Handler(Looper.getMainLooper())
-
-        // Initialize adapter with empty list
-        slideAdapter = ImageSlideAdapter(emptyList(), viewPager2)
-        viewPager2.adapter = slideAdapter
-        viewPager2.offscreenPageLimit = 3
-        viewPager2.clipToPadding = false
-        viewPager2.clipChildren = false
-        viewPager2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-
-        setUpTransformer()
-        registerAutoSlide()
+        setupViewPager()
         collectSlides()
+        registerAutoSlide()
     }
 
+    private fun setupViewPager() {
+        handler = Handler(Looper.getMainLooper())
+        slideAdapter = ImageSlideAdapter()
+        viewPager2.apply {
+            adapter = slideAdapter
+            offscreenPageLimit = 3
+            clipToPadding = false
+            clipChildren = false
+            (getChildAt(0) as? RecyclerView)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        }
+        setUpTransformer()
+    }
+
+    private fun setUpTransformer() {
+        val transformer = CompositePageTransformer().apply {
+            addTransformer(MarginPageTransformer(40))
+            addTransformer { page, position ->
+                val r = 1 - kotlin.math.abs(position)
+                page.scaleY = 0.85f + r * 0.14f
+                page.scaleX = 0.85f + r * 0.3f
+            }
+        }
+        viewPager2.setPageTransformer(transformer)
+    }
 
     private fun collectSlides() {
         lifecycleScope.launchWhenStarted {
-            viewModel.imageSlideState.collect { result ->
+            viewModel.imageSlideState.collectLatest { result ->
                 when (result) {
                     is NetworkResult.Success -> {
-                        result.data?.let { slides ->
-                            slideAdapter.setData(slides)
+                        viewPager2.visibility = View.VISIBLE
+                        slideAdapter.setData(result.data)
+                        if (result.data.isNotEmpty()) {
+                            viewPager2.setCurrentItem(INITIAL_POSITION, false)
                         }
                     }
-
-                    is NetworkResult.Loading -> {
-
-                    }
-
                     is NetworkResult.Error -> {
-
+                        viewPager2.visibility = View.GONE
                     }
-
-                    else -> Unit
+                    else -> {
+                        viewPager2.visibility = View.GONE
+                    }
                 }
             }
         }
@@ -85,25 +102,18 @@ class HomeFragment : BaseFragment() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 handler.removeCallbacks(autoSlideRunnable)
-                handler.postDelayed(autoSlideRunnable, 2500)
+                handler.postDelayed(autoSlideRunnable, AUTO_SLIDE_INTERVAL)
             }
         })
     }
 
     private val autoSlideRunnable = Runnable {
-        viewPager2.currentItem =
-            (viewPager2.currentItem + 1).coerceAtMost(slideAdapter.itemCount - 1)
-    }
-
-    private fun setUpTransformer() {
-        val transformer = CompositePageTransformer()
-        transformer.addTransformer(MarginPageTransformer(40))
-        transformer.addTransformer { page, position ->
-            val r = 1 - kotlin.math.abs(position)
-            page.scaleY = 0.85f + r * 0.14f
-            page.scaleX = 0.85f + r * 0.3f
+        // Infinite loop: reset to initial position if at end
+        val itemCount = slideAdapter.itemCount
+        if (itemCount > 0) {
+            val nextItem = viewPager2.currentItem + 1
+            viewPager2.setCurrentItem(nextItem, true)
         }
-        viewPager2.setPageTransformer(transformer)
     }
 
     override fun onPause() {
@@ -113,13 +123,11 @@ class HomeFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        handler.postDelayed(autoSlideRunnable, 2500)
+        handler.postDelayed(autoSlideRunnable, AUTO_SLIDE_INTERVAL)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }
