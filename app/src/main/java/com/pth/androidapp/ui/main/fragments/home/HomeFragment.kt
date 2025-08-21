@@ -25,7 +25,6 @@ class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
-    private lateinit var viewPager2: ViewPager2
     private lateinit var handler: Handler
     private lateinit var slideAdapter: ImageSlideAdapter
 
@@ -44,7 +43,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewPager2 = binding.vpSlideHome
         setupViewPager()
         collectSlides()
         registerAutoSlide()
@@ -53,7 +51,7 @@ class HomeFragment : BaseFragment() {
     private fun setupViewPager() {
         handler = Handler(Looper.getMainLooper())
         slideAdapter = ImageSlideAdapter()
-        viewPager2.apply {
+        binding.vpSlideHome.apply {
             adapter = slideAdapter
             offscreenPageLimit = 3
             clipToPadding = false
@@ -72,25 +70,33 @@ class HomeFragment : BaseFragment() {
                 page.scaleX = 0.85f + r * 0.3f
             }
         }
-        viewPager2.setPageTransformer(transformer)
+        binding.vpSlideHome.setPageTransformer(transformer)
     }
 
     private fun collectSlides() {
+
         lifecycleScope.launchWhenStarted {
             viewModel.imageSlideState.collectLatest { result ->
                 when (result) {
                     is NetworkResult.Success -> {
-                        viewPager2.visibility = View.VISIBLE
+                        binding.vpSlideHome.visibility = View.VISIBLE
+                        binding.sliderError.root.visibility = View.GONE
+                        binding.sliderLoading.visibility = View.GONE
                         slideAdapter.setData(result.data)
                         if (result.data.isNotEmpty()) {
-                            viewPager2.setCurrentItem(INITIAL_POSITION, false)
+                            binding.vpSlideHome.setCurrentItem(INITIAL_POSITION, false)
                         }
                     }
                     is NetworkResult.Error -> {
-                        viewPager2.visibility = View.GONE
+                        binding.vpSlideHome.visibility = View.GONE
+                        binding.sliderError.root.visibility = View.VISIBLE
+                        binding.sliderLoading.visibility = View.GONE
                     }
                     else -> {
-                        viewPager2.visibility = View.GONE
+                        binding.vpSlideHome.visibility = View.GONE
+                        binding.sliderError.root.visibility = View.GONE
+                        binding.sliderLoading.visibility = View.VISIBLE
+
                     }
                 }
             }
@@ -98,7 +104,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun registerAutoSlide() {
-        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        binding.vpSlideHome.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 handler.removeCallbacks(autoSlideRunnable)
@@ -111,8 +117,8 @@ class HomeFragment : BaseFragment() {
         // Infinite loop: reset to initial position if at end
         val itemCount = slideAdapter.itemCount
         if (itemCount > 0) {
-            val nextItem = viewPager2.currentItem + 1
-            viewPager2.setCurrentItem(nextItem, true)
+            val nextItem = binding.vpSlideHome.currentItem + 1
+            binding.vpSlideHome.setCurrentItem(nextItem, true)
         }
     }
 

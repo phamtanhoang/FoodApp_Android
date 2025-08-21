@@ -1,6 +1,5 @@
 package com.pth.androidapp.data.repositories.impl
 
-import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.pth.androidapp.base.network.NetworkResult
 import com.pth.androidapp.data.models.imageSlide.ImageSlide
@@ -41,18 +40,15 @@ class ImageSlideRepositoryImpl @Inject constructor(
         emit(NetworkResult.Loading)
 
         try {
-            Log.d(TAG, "Getting all image slides...")
 
             val slides = firestore.collection(COLLECTION_IMAGE_SLIDES)
                 .get()
                 .await()
                 .toObjects(ImageSlide::class.java)
 
-            Log.d(TAG, "Got ${slides.size} image slides.")
             emit(NetworkResult.Success(slides))
 
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting image slides: ${e.message}", e)
             emit(NetworkResult.Error(e.message ?: "Unknown error occurred"))
         }
     }
