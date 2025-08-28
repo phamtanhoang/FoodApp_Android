@@ -61,4 +61,6 @@
     <string name="crafted_with_by_hoang_pham">Crafted with ❤️ by Hoang Pham</string>
     <string name="live_nit_up">Live \nit up!</string>
     <string name="some_thing_went_wrong_please_try_again_later">Some thing went wrong. Please try again later!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
