@@ -9,14 +9,6 @@ sealed class UiState<out T> {
 
     data class Error(val message: String, val code: String? = null) : UiState<Nothing>()
 
-    val isIdle: Boolean get() = this is Idle
-    val isLoading: Boolean get() = this is Loading
-    val isSuccess: Boolean get() = this is Success
-    val isError: Boolean get() = this is Error
-
-    fun getSuccessDataOrNull(): T? = if (this is Success) data else null
-
-    fun getErrorMessageOrNull(): String? = if (this is Error) message else null
 }
 
 inline fun <T, R> UiState<T>.fold(

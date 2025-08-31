@@ -2,6 +2,7 @@ package com.pth.androidapp.core.base.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pth.androidapp.R
 import com.pth.androidapp.core.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,8 +20,7 @@ open class BaseViewModel<T> : ViewModel() {
                 val result = block()
                 _uiState.value = UiState.Success(result)
             } catch (e: Exception) {
-                val errorMessage = e.message ?: "An unexpected error occurred"
-                _uiState.value = UiState.Error(errorMessage)
+                _uiState.value = UiState.Error(e.message ?: "")
             }
         }
     }

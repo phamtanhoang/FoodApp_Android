@@ -9,7 +9,7 @@ interface AuthRepository {
 
     suspend fun logout()
 
-    suspend fun checkLoggedInStatus(): Boolean
+    suspend fun isLoggedIn(): Boolean
 }
 
 class InvalidCredentialsException : Exception("Invalid email or password.")

@@ -22,7 +22,6 @@ import kotlinx.coroutines.launch
 class SplashActivity : BaseActivity<ActivitySplashBinding>() {
     private var isVideoCompleted = false
 
-
     override fun inflateBinding(inflater: LayoutInflater): ActivitySplashBinding {
         return ActivitySplashBinding.inflate(inflater)
     }
@@ -48,6 +47,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
     private fun proceedToNextScreen() {
         if (isVideoCompleted) {
             if (FirebaseAuth.getInstance().currentUser != null) {
+
                 navigateToMain()
                 finish()
                 return

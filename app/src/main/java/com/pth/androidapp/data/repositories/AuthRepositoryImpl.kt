@@ -27,8 +27,14 @@ class AuthRepositoryImpl @Inject constructor(
         try {
             val authResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
             val firebaseUser = authResult.user ?: throw Exception("Authentication failed, user is null.")
+            if (rememberMe) {
+                userPreferences.saveCredentials(email, password, true)
+            } else {
+                userPreferences.clearCredentials()
+            }
+
             userPreferences.saveUserInfo(firebaseUser.uid, firebaseUser.email ?: "")
-            // Thêm logic cho rememberMe nếu cần
+
             return firebaseUser.toDomainUser()
         } catch (e: Exception) {
             throw when (e) {
@@ -58,7 +64,8 @@ class AuthRepositoryImpl @Inject constructor(
         userPreferences.clearAll()
     }
 
-    override suspend fun checkLoggedInStatus(): Boolean {
+    override suspend fun isLoggedIn(): Boolean {
         return firebaseAuth.currentUser != null
     }
+
 }
