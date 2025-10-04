@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlin.math.max
 import androidx.viewbinding.ViewBinding
 import com.pth.androidapp.R
 import com.pth.androidapp.core.base.dialogs.ConfirmDialogFragment
@@ -42,15 +43,15 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     open fun restart() {
-        finish()
-        startActivity(intent)
-        overridePendingTransition(0, 0)
+        recreate()
     }
 
     open fun setupWindowInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val bottomInset = max(systemBars.bottom, imeInsets.bottom)
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, bottomInset)
             insets
         }
     }

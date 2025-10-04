@@ -2,6 +2,7 @@ package com.pth.androidapp.presentation.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.ArrayAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.pth.androidapp.core.base.activities.BaseActivity
 import com.pth.androidapp.core.common.LanguageManager
@@ -27,16 +28,10 @@ class AuthActivity : BaseActivity<ActivityAuthBinding>() {
             finish()
             return
         }
-
-        setupLanguageSpinner()
     }
-
 
     fun navigateToMainApp() {
         navigateToActivity(MainActivity::class.java, finishCurrent = true)
     }
 
-    private fun setupLanguageSpinner() {
-        // ...
-    }
 }

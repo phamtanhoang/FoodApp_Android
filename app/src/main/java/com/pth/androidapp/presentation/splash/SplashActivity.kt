@@ -47,7 +47,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
     private fun proceedToNextScreen() {
         if (isVideoCompleted) {
             if (FirebaseAuth.getInstance().currentUser != null) {
-
                 navigateToMain()
                 finish()
                 return

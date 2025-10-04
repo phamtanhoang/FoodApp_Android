@@ -45,20 +45,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiState.collect { state ->
-                state.fold(
-                    onIdle = { showLoading(false) },
-                    onLoading = { showLoading(true) },
-                    onSuccess = {
-                        showLoading(false)
-                        (activity as? AuthActivity)?.navigateToMainApp()
-                    },
-                    onError = { message, _ ->
-                        showLoading(false)
-                        showNotifyDialog(type = NotifyType.ERROR, message = message)
-                    }
-                )
-            }
+//            viewModel.uiState.collect { state ->
+//                state.fold(
+//                    onIdle = { showLoading(false) },
+//                    onLoading = { showLoading(true) },
+//                    onSuccess = {
+//                        showLoading(false)
+//                        (activity as? AuthActivity)?.navigateToMainApp()
+//                    },
+//                    onError = { message, _ ->
+//                        showLoading(false)
+//                        showNotifyDialog(type = NotifyType.ERROR, message = message)
+//                    }
+//                )
+//            }
         }
     }
 }

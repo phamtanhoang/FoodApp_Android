@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.pth.androidapp.core.base.dialogs.NotifyType
 import com.pth.androidapp.core.base.fragments.BaseFragment
-import com.pth.androidapp.core.common.fold
 import com.pth.androidapp.databinding.FragmentRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
+import com.pth.androidapp.R
+import com.pth.androidapp.core.base.dialogs.NotifyType
+import com.pth.androidapp.core.common.UiState
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -28,27 +29,39 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        observeUiState()
+        setupNavigation()
+        observeRegisterState()
+
     }
 
-    private fun observeUiState() {
+    private fun setupNavigation() {
+        binding.navigateToLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
+    }
+
+    private fun observeRegisterState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiState.collect { state ->
-                state.fold(
-                    onIdle = { showLoading(false) },
-                    onLoading = { showLoading(true) },
-                    onSuccess = {
+            viewModel.registerState.collect { state ->
+                when (state) {
+                    is UiState.Loading -> showLoading(true)
+                    is UiState.Success -> {
                         showLoading(false)
-                        showNotifyDialog(type = NotifyType.SUCCESS, message = "Đăng ký thành công!") {
-                            findNavController().popBackStack()
+                        showNotifyDialog(
+                            type = NotifyType.SUCCESS,
+                            message = getString(R.string.registration_success)
+                        ) {
+                            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                         }
-                    },
-                    onError = { message, _ ->
-                        showLoading(false)
-                        showNotifyDialog(message = message, type = NotifyType.ERROR)
                     }
-                )
+                    is UiState.Error -> {
+                        showLoading(false)
+                        showNotifyDialog(message = state.message, type = NotifyType.ERROR) {  }
+                    }
+                    is UiState.Idle -> showLoading(false)
+                }
             }
         }
     }
+
 }

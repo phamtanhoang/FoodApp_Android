@@ -1,10 +1,15 @@
 package com.pth.androidapp.presentation.auth.register
 
+import android.content.Context
+import com.pth.androidapp.R
 import com.pth.androidapp.core.base.viewmodels.BaseViewModel
+import com.pth.androidapp.core.common.InputValidator
 import com.pth.androidapp.core.common.TextFieldState
+import com.pth.androidapp.core.common.UiState
 import com.pth.androidapp.domain.entities.User
 import com.pth.androidapp.domain.repositories.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -12,55 +17,92 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val authRepository: AuthRepository
-) : BaseViewModel<User>() {
-    private val _emailState = MutableStateFlow(TextFieldState())
-    val emailState = _emailState.asStateFlow()
+    private val authRepository: AuthRepository,
+    private val validator: InputValidator,
+    @ApplicationContext private val context: Context
+) : BaseViewModel() {
+    private val _registerState = MutableStateFlow<UiState<User>>(UiState.Idle)
+    val registerState = _registerState.asStateFlow()
 
-    private val _passwordState = MutableStateFlow(TextFieldState())
-    val passwordState = _passwordState.asStateFlow()
-
-    private val _confirmPasswordState = MutableStateFlow(TextFieldState())
-    val confirmPasswordState = _confirmPasswordState.asStateFlow()
+    val emailState = MutableStateFlow(TextFieldState(""))
+    val passwordState = MutableStateFlow(TextFieldState(""))
+    val confirmPasswordState = MutableStateFlow(TextFieldState(""))
 
     fun onRegisterClicked() {
         if (!validateForm()) return
 
-        execute {
+        execute(_registerState) {
             authRepository.register(
-                email = _emailState.value.text,
-                password = _passwordState.value.text
+                email = emailState.value.text.trim(),
+                password = passwordState.value.text
             )
         }
     }
 
     private fun validateForm(): Boolean {
-        val email = _emailState.value.text
-        val password = _passwordState.value.text
-        val confirmPassword = _confirmPasswordState.value.text
-        var isValid = true
+        val email = emailState.value.text
+        val password = passwordState.value.text
+        val confirmPassword = confirmPasswordState.value.text
 
-        if (email.isBlank()) {
-            _emailState.update { it.copy(error = "Email không được để trống") }
-            isValid = false
-        } else {
-            _emailState.update { it.copy(error = null) }
+        val isEmailValid = validateEmail(email)
+        val isPasswordValid = validatePassword(password)
+        val isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword)
+
+        return isEmailValid && isPasswordValid && isConfirmPasswordValid
+    }
+
+    private fun validateEmail(email: String): Boolean {
+        return when {
+            email.isBlank() -> {
+                emailState.update { it.copy(error = context.getString(R.string.email_not_empty)) }
+                false
+            }
+            !validator.validateEmail(email) -> {
+                emailState.update { it.copy(error = context.getString(R.string.email_not_valid)) }
+                false
+            }
+            else -> {
+                emailState.update { it.copy(error = null) }
+                true
+            }
         }
+    }
 
-        if (password.length < 6) {
-            _passwordState.update { it.copy(error = "Mật khẩu phải có ít nhất 6 ký tự") }
-            isValid = false
-        } else {
-            _passwordState.update { it.copy(error = null) }
+    private fun validatePassword(password: String): Boolean {
+        return when {
+            password.isBlank() -> {
+                passwordState.update { it.copy(error = context.getString(R.string.password_not_empty)) }
+                false
+            }
+            !validator.validatePassword(password) -> {
+                passwordState.update { it.copy(error = context.getString(R.string.password_not_valid)) }
+                false
+            }
+            else -> {
+                passwordState.update { it.copy(error = null) }
+                true
+            }
         }
+    }
 
-        if (password != confirmPassword) {
-            _confirmPasswordState.update { it.copy(error = "Mật khẩu không khớp") }
-            isValid = false
-        } else {
-            _confirmPasswordState.update { it.copy(error = null) }
+    private fun validateConfirmPassword(password: String, confirmPassword: String): Boolean {
+        return when {
+            confirmPassword.isBlank() -> {
+                confirmPasswordState.update { it.copy(error = context.getString(R.string.password_not_empty)) }
+                false
+            }
+            !validator.validatePassword(confirmPassword) -> {
+                confirmPasswordState.update { it.copy(error = context.getString(R.string.password_not_valid)) }
+                false
+            }
+            password != confirmPassword -> {
+                confirmPasswordState.update { it.copy(error = context.getString(R.string.password_not_match)) }
+                false
+            }
+            else -> {
+                confirmPasswordState.update { it.copy(error = null) }
+                true
+            }
         }
-
-        return isValid
     }
 }

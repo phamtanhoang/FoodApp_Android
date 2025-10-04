@@ -49,10 +49,8 @@ class LanguageManager @Inject constructor(
     }
 
     fun setLanguage(languageCode: String) {
-        // 1. Lưu lựa chọn của người dùng
         sharedPrefs.edit { putString(KEY_SELECTED_LANGUAGE, languageCode) }
 
-        // 2. Yêu cầu hệ thống áp dụng ngôn ngữ mới
         val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(languageCode)
         AppCompatDelegate.setApplicationLocales(appLocale)
     }
@@ -60,7 +58,7 @@ class LanguageManager @Inject constructor(
     private fun getSystemLanguage(): String {
         val systemLocales = LocaleListCompat.getAdjustedDefault()
         return if (!systemLocales.isEmpty) {
-            systemLocales[0]?.language ?: "en" // Fallback sang tiếng Anh nếu không xác định được
+            systemLocales[0]?.language ?: "en"
         } else {
             Locale.getDefault().language
         }

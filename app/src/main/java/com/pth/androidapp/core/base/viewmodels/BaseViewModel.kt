@@ -2,30 +2,27 @@ package com.pth.androidapp.core.base.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pth.androidapp.R
 import com.pth.androidapp.core.common.UiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-open class BaseViewModel<T> : ViewModel() {
-    private val _uiState = MutableStateFlow<UiState<T>>(UiState.Idle)
-    val uiState: StateFlow<UiState<T>> = _uiState.asStateFlow()
+@HiltViewModel
+open class BaseViewModel @Inject constructor() : ViewModel() {
 
-    protected fun execute(block: suspend () -> T) {
+    protected fun <T> execute(
+        stateFlow: MutableStateFlow<UiState<T>>,
+        block: suspend () -> T
+    ) {
         viewModelScope.launch {
-            _uiState.value = UiState.Loading
+            stateFlow.value = UiState.Loading
             try {
                 val result = block()
-                _uiState.value = UiState.Success(result)
+                stateFlow.value = UiState.Success(result)
             } catch (e: Exception) {
-                _uiState.value = UiState.Error(e.message ?: "")
+                stateFlow.value = UiState.Error(message = e.toString())
             }
         }
-    }
-
-    protected fun setUiState(newState: UiState<T>) {
-        _uiState.value = newState
     }
 }
