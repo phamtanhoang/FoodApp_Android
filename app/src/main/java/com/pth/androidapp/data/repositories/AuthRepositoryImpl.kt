@@ -8,14 +8,12 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.pth.androidapp.data.local.preferences.UserPreferences
 import com.pth.androidapp.data.mappers.toDomainUser
 import com.pth.androidapp.domain.entities.User
-import com.pth.androidapp.domain.repositories.InvalidCredentialsException
-import com.pth.androidapp.domain.repositories.UserAlreadyExistsException
-import com.pth.androidapp.domain.repositories.UserNotFoundException
-import com.pth.androidapp.domain.repositories.WeakPasswordException
+import com.pth.androidapp.core.utils.ErrorKeys
 import com.pth.androidapp.domain.repositories.AuthRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.Exception
 
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
@@ -26,7 +24,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun login(email: String, password: String, rememberMe: Boolean): User {
         try {
             val authResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            val firebaseUser = authResult.user ?: throw Exception("Authentication failed, user is null.")
+            val firebaseUser = authResult.user ?: throw Exception(ErrorKeys.SOMETHING_WENT_WRONG)
             if (rememberMe) {
                 userPreferences.saveCredentials(email, password, true)
             } else {
@@ -38,9 +36,9 @@ class AuthRepositoryImpl @Inject constructor(
             return firebaseUser.toDomainUser()
         } catch (e: Exception) {
             throw when (e) {
-                is FirebaseAuthInvalidCredentialsException -> InvalidCredentialsException()
-                is FirebaseAuthInvalidUserException -> UserNotFoundException()
-                else -> e
+                is FirebaseAuthInvalidCredentialsException -> Exception(ErrorKeys.INVALID_CREDENTIALS)
+                is FirebaseAuthInvalidUserException -> Exception(ErrorKeys.USER_NOT_FOUND)
+                else -> Exception(ErrorKeys.SOMETHING_WENT_WRONG)
             }
         }
     }
@@ -48,13 +46,16 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun register(email: String, password: String): User {
         try {
             val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-            val firebaseUser = authResult.user ?: throw Exception("Registration failed, user is null.")
+
+            val firebaseUser = authResult.user ?: throw Exception(ErrorKeys.SOMETHING_WENT_WRONG)
+            logout()
             return firebaseUser.toDomainUser()
         } catch (e: Exception) {
             throw when (e) {
-                is FirebaseAuthUserCollisionException -> UserAlreadyExistsException()
-                is FirebaseAuthWeakPasswordException -> WeakPasswordException()
-                else -> e
+                is FirebaseAuthUserCollisionException -> Exception(ErrorKeys.USER_ALREADY_EXISTS)
+                is FirebaseAuthWeakPasswordException -> Exception(ErrorKeys.WEAK_PASSWORD)
+                is FirebaseAuthInvalidCredentialsException -> Exception(ErrorKeys.INVALID_CREDENTIALS)
+                else -> Exception(ErrorKeys.SOMETHING_WENT_WRONG)
             }
         }
     }

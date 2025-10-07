@@ -2,19 +2,20 @@ package com.pth.androidapp.presentation.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.widget.ArrayAdapter
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.lifecycleScope
 import com.pth.androidapp.core.base.activities.BaseActivity
 import com.pth.androidapp.core.common.LanguageManager
 import com.pth.androidapp.databinding.ActivityAuthBinding
+import com.pth.androidapp.domain.repositories.AuthRepository
 import com.pth.androidapp.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AuthActivity : BaseActivity<ActivityAuthBinding>() {
     @Inject
-    lateinit var languageManager: LanguageManager
+    lateinit var authRepository: AuthRepository
 
     override fun inflateBinding(inflater: LayoutInflater): ActivityAuthBinding {
         return ActivityAuthBinding.inflate(inflater)
@@ -23,10 +24,12 @@ class AuthActivity : BaseActivity<ActivityAuthBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (FirebaseAuth.getInstance().currentUser != null) {
-            navigateToMainApp()
-            finish()
-            return
+        lifecycleScope.launch {
+            if (authRepository.isLoggedIn()) {
+                navigateToMainApp()
+                finish()
+                return@launch
+            }
         }
     }
 

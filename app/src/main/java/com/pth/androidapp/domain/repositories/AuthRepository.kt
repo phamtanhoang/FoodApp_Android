@@ -11,8 +11,3 @@ interface AuthRepository {
 
     suspend fun isLoggedIn(): Boolean
 }
-
-class InvalidCredentialsException : Exception("Invalid email or password.")
-class UserNotFoundException : Exception("User with the given credentials not found.")
-class UserAlreadyExistsException : Exception("A user with this email already exists.")
-class WeakPasswordException : Exception("The password is too weak.")

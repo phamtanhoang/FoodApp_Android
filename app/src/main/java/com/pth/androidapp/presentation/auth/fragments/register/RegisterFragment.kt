@@ -1,4 +1,4 @@
-package com.pth.androidapp.presentation.auth.register
+package com.pth.androidapp.presentation.auth.fragments.register
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.pth.androidapp.R
 import com.pth.androidapp.core.base.dialogs.NotifyType
 import com.pth.androidapp.core.common.UiState
+import com.pth.androidapp.core.utils.ErrorKeys
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -31,7 +32,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
         setupNavigation()
         observeRegisterState()
-
     }
 
     private fun setupNavigation() {
@@ -56,7 +56,15 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
                     }
                     is UiState.Error -> {
                         showLoading(false)
-                        showNotifyDialog(message = state.message, type = NotifyType.ERROR) {  }
+                        // Handle localization directly here
+                        val localizedMessage = when (state.message) {
+                            ErrorKeys.INVALID_CREDENTIALS -> getString(R.string.error_invalid_credentials)
+                            ErrorKeys.USER_ALREADY_EXISTS -> getString(R.string.error_user_already_exists)
+                            ErrorKeys.WEAK_PASSWORD -> getString(R.string.error_weak_password)
+                            else -> getString(R.string.some_thing_went_wrong_please_try_again_later)
+                        }
+
+                        showNotifyDialog(message = localizedMessage, type = NotifyType.ERROR) { }
                     }
                     is UiState.Idle -> showLoading(false)
                 }

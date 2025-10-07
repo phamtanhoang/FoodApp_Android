@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.pth.androidapp.presentation.auth.login.LoginViewModel" />
+            type="com.pth.androidapp.presentation.auth.fragments.login.LoginViewModel" />
     </data>
 
     <ScrollView
@@ -47,7 +47,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
-                    app:error="@{viewModel.emailState.error}">
+                    app:error="@{viewModel.emailState.error}"
+                    app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/tiet_email"
@@ -55,8 +56,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
-                        android:imeOptions="actionNext"
-                        android:text="@{viewModel.emailState.text}" />
+                        app:stateFlowText="@{viewModel.emailState}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -66,6 +66,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
                     app:error="@{viewModel.passwordState.error}"
+                    app:errorEnabled="true"
                     app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -74,8 +75,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
-                        android:imeOptions="actionDone"
-                        android:text="@{viewModel.passwordState.text}" />
+                        app:stateFlowText="@{viewModel.passwordState}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <CheckBox

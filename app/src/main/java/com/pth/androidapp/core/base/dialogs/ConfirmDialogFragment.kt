@@ -77,6 +77,14 @@ class ConfirmDialogFragment : DialogFragment() {
         _binding = null
     }
 
+    override fun onStart() {
+        super.onStart()
+            dialog?.window?.setLayout(
+            resources.displayMetrics.widthPixels - 2 * (16 * resources.displayMetrics.density).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+    }
+
     class Builder(private val context: Context) {
         private var title: String = ""
         private var message: String? = null

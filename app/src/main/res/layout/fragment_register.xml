@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.pth.androidapp.presentation.auth.register.RegisterViewModel" />
+            type="com.pth.androidapp.presentation.auth.fragments.register.RegisterViewModel" />
     </data>
 
     <ScrollView

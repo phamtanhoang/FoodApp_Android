@@ -45,6 +45,15 @@ class NotifyDialogFragment : DialogFragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(
+            resources.displayMetrics.widthPixels - 2 * (16 * resources.displayMetrics.density).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         isCancelable = false

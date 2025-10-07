@@ -1,4 +1,4 @@
-package com.pth.androidapp.presentation.auth.register
+package com.pth.androidapp.presentation.auth.fragments.register
 
 import android.content.Context
 import com.pth.androidapp.R
@@ -7,7 +7,7 @@ import com.pth.androidapp.core.common.InputValidator
 import com.pth.androidapp.core.common.TextFieldState
 import com.pth.androidapp.core.common.UiState
 import com.pth.androidapp.domain.entities.User
-import com.pth.androidapp.domain.repositories.AuthRepository
+import com.pth.androidapp.domain.usecases.RegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
+    private val registerUseCase: RegisterUseCase,
     private val validator: InputValidator,
     @ApplicationContext private val context: Context
 ) : BaseViewModel() {
@@ -32,7 +32,7 @@ class RegisterViewModel @Inject constructor(
         if (!validateForm()) return
 
         execute(_registerState) {
-            authRepository.register(
+            registerUseCase(
                 email = emailState.value.text.trim(),
                 password = passwordState.value.text
             )
@@ -105,4 +105,5 @@ class RegisterViewModel @Inject constructor(
             }
         }
     }
+
 }

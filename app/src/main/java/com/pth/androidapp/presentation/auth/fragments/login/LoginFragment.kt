@@ -1,4 +1,4 @@
-package com.pth.androidapp.presentation.auth.login
+package com.pth.androidapp.presentation.auth.fragments.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import com.pth.androidapp.R
 import com.pth.androidapp.core.base.dialogs.NotifyType
 import com.pth.androidapp.core.base.fragments.BaseFragment
-import com.pth.androidapp.core.common.fold
+import com.pth.androidapp.core.common.UiState
+import com.pth.androidapp.core.utils.ErrorKeys
 import com.pth.androidapp.databinding.FragmentLoginBinding
 import com.pth.androidapp.presentation.auth.AuthActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,7 +35,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         setupNavigation()
-        observeUiState()
+        observeLoginState()
     }
 
     private fun setupNavigation() {
@@ -43,22 +44,29 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
     }
 
-    private fun observeUiState() {
+    private fun observeLoginState() {
         viewLifecycleOwner.lifecycleScope.launch {
-//            viewModel.uiState.collect { state ->
-//                state.fold(
-//                    onIdle = { showLoading(false) },
-//                    onLoading = { showLoading(true) },
-//                    onSuccess = {
-//                        showLoading(false)
-//                        (activity as? AuthActivity)?.navigateToMainApp()
-//                    },
-//                    onError = { message, _ ->
-//                        showLoading(false)
-//                        showNotifyDialog(type = NotifyType.ERROR, message = message)
-//                    }
-//                )
-//            }
+            viewModel.loginState.collect { state ->
+                when (state) {
+                    is UiState.Loading -> showLoading(true)
+                    is UiState.Success -> {
+                        showLoading(false)
+                        (activity as? AuthActivity)?.navigateToMainApp()
+                    }
+                    is UiState.Error -> {
+                        showLoading(false)
+                        // Handle localization directly here
+                        val localizedMessage = when (state.message) {
+                            ErrorKeys.USER_NOT_FOUND -> getString(R.string.error_user_not_found)
+                            ErrorKeys.INVALID_CREDENTIALS -> getString(R.string.error_invalid_credentials)
+                            else -> getString(R.string.some_thing_went_wrong_please_try_again_later)
+                        }
+
+                        showNotifyDialog(message = localizedMessage, type = NotifyType.ERROR) { }
+                    }
+                    is UiState.Idle -> showLoading(false)
+                }
+            }
         }
     }
 }

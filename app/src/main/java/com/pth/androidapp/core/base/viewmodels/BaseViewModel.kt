@@ -21,7 +21,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
                 val result = block()
                 stateFlow.value = UiState.Success(result)
             } catch (e: Exception) {
-                stateFlow.value = UiState.Error(message = e.toString())
+                stateFlow.value = UiState.Error(message = e.message ?: e.toString())
             }
         }
     }

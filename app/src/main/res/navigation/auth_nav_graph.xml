@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.pth.androidapp.presentation.auth.register.RegisterFragment"
+        android:name="com.pth.androidapp.presentation.auth.fragments.register.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register">
 
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.pth.androidapp.presentation.auth.login.LoginFragment"
+        android:name="com.pth.androidapp.presentation.auth.fragments.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
 

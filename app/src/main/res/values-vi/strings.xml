@@ -26,9 +26,6 @@
     <string name="email_not_valid">Email không hợp lệ</string>
     <string name="password_not_empty">Mật khẩu không được để trống</string>
     <string name="password_not_valid">Mật khẩu không hợp lệ</string>
-    <string name="error_invalid_credentials">Sai thông tin đăng nhập</string>
-    <string name="error_user_not_found">Tài khoản không tồn tại</string>
-    <string name="error_unknown">Lỗi không xác định</string>
 
     <string name="ok">Đồng ý</string>
     <string name="cancel">Hủy bỏ</string>
@@ -61,6 +58,12 @@
     <string name="crafted_with_by_hoang_pham">Được tạo ra với ❤️ bởi Hoàng Phạm</string>
     <string name="live_nit_up">Tận hưởng \ncuộc sống!</string>
 
-    <string name="some_thing_went_wrong_please_try_again_later">Có lỗi xảy ra. Vui lòng thử lại sau!</string>
 
+    <!--    exceptions-->
+    <string name="some_thing_went_wrong_please_try_again_later">Có lỗi xảy ra. Vui lòng thử lại sau!</string>
+    <string name="error_user_not_found">Tài khoản không tồn tại.</string>
+    <string name="error_invalid_credentials">Email hoặc mật khẩu không đúng.</string>
+    <string name="error_user_already_exists">Đã có người dùng với email này.</string>
+    <string name="error_weak_password">Mật khẩu quá yếu.</string>
+    <string name="error_unknown">Có lỗi không xác định xảy ra. Vui lòng thử lại.</string>
 </resources>
