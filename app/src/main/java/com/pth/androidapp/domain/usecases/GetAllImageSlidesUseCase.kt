@@ -1,4 +1,4 @@
-package com.pth.androidapp.domain.usecase
+package com.pth.androidapp.domain.usecases
 
 import com.pth.androidapp.domain.models.ImageSlide
 import com.pth.androidapp.domain.repositories.ImageSlideRepository
@@ -9,4 +9,3 @@ class GetAllImageSlidesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(): List<ImageSlide> = repository.getAllImageSlides()
 }
-

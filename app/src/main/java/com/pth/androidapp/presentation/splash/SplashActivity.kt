@@ -14,12 +14,15 @@ import com.pth.androidapp.databinding.ActivitySplashBinding
 import com.pth.androidapp.presentation.auth.AuthActivity
 import com.pth.androidapp.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : BaseActivity<ActivitySplashBinding>() {
+
+    private val viewModel: SplashViewModel by viewModels()
     private var isVideoCompleted = false
 
     override fun inflateBinding(inflater: LayoutInflater): ActivitySplashBinding {
@@ -46,12 +49,20 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
     private fun proceedToNextScreen() {
         if (isVideoCompleted) {
-            if (FirebaseAuth.getInstance().currentUser != null) {
-                navigateToMain()
-                finish()
-                return
+            lifecycleScope.launch {
+                viewModel.isLoggedIn.collectLatest { isLoggedIn ->
+                    if (isLoggedIn == null) {
+                        return@collectLatest
+                    }
+
+                    if (isLoggedIn) {
+                        navigateToMain()
+                    } else {
+                        navigateToAuth()
+                    }
+                    finish()
+                }
             }
-            navigateToAuth()
         }
     }
 

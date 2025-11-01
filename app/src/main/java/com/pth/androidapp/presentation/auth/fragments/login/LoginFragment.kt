@@ -51,7 +51,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     is UiState.Loading -> showLoading(true)
                     is UiState.Success -> {
                         showLoading(false)
-                        (activity as? AuthActivity)?.navigateToMainApp()
+                        (activity as? AuthActivity)?.navigateToMain()
                     }
                     is UiState.Error -> {
                         showLoading(false)
