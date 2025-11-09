@@ -2,12 +2,14 @@ package com.pth.androidapp.core.common
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @BindingAdapter("stateFlowText")
-fun bindStateFlowText(editText: TextInputEditText, state: MutableStateFlow<com.pth.androidapp.core.common.TextFieldState>?) {
+fun bindStateFlowText(editText: TextInputEditText, state: MutableStateFlow<TextFieldState>?) {
     if (state == null) return
     if (editText.tag != state) {
         editText.setText(state.value.text)
@@ -22,4 +24,9 @@ fun bindStateFlowText(editText: TextInputEditText, state: MutableStateFlow<com.p
         }
         override fun afterTextChanged(s: Editable?) {}
     })
+}
+
+@BindingAdapter("visible")
+fun setVisible(view: View, isVisible: Boolean) {
+    view.isVisible = isVisible
 }

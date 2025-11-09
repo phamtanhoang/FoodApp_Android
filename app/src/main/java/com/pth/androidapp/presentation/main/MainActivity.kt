@@ -42,7 +42,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     return@collectLatest
                 }
 
-                if (isLoggedIn) {
+                if (!isLoggedIn) {
                     navigateToAuth()
                     finish()
                 }

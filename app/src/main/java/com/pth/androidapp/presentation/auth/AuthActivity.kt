@@ -5,14 +5,11 @@ import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.pth.androidapp.core.base.activities.BaseActivity
-import com.pth.androidapp.core.common.LanguageManager
 import com.pth.androidapp.databinding.ActivityAuthBinding
-import com.pth.androidapp.domain.repositories.AuthRepository
 import com.pth.androidapp.presentation.main.MainActivity
 import com.pth.androidapp.presentation.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import javax.inject.Inject
 import kotlinx.coroutines.launch
 import kotlin.getValue
 
@@ -34,7 +31,7 @@ class AuthActivity : BaseActivity<ActivityAuthBinding>() {
                     return@collectLatest
                 }
 
-                if (!isLoggedIn) {
+                if (isLoggedIn) {
                     navigateToMain()
                     finish()
                 }
