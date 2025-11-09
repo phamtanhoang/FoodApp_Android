@@ -43,7 +43,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         observeImageSlides()
     }
 
-
     private fun setupViewPager() {
         handler = Handler(Looper.getMainLooper())
         slideAdapter = ImageSlideAdapter()
@@ -63,7 +62,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             addTransformer { page, position ->
                 val r = 1 - abs(position)
                 page.scaleY = 0.85f + r * 0.14f
-                page.scaleX = 0.85f + r * 0.3f
             }
         }
         binding.vpSlideHome.setPageTransformer(transformer)
@@ -73,12 +71,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.imageSlides.collect { uiState ->
                 binding.uiState = uiState
-                if (uiState is UiState.Success) {
-                    slideAdapter.setData(uiState.data)
-                    if (uiState.data.isNotEmpty()) {
-                        binding.vpSlideHome.setCurrentItem(INITIAL_POSITION, false)
-                        registerAutoSlide()
+                when (uiState) {
+                    is UiState.Loading -> {
+                        slideAdapter.showLoading()
+                        binding.vpSlideHome.setCurrentItem(1, false)
                     }
+                    is UiState.Success -> {
+                        slideAdapter.setData(uiState.data)
+                        if (uiState.data.isNotEmpty()) {
+                            binding.vpSlideHome.setCurrentItem(INITIAL_POSITION, false)
+                            registerAutoSlide()
+                        }
+                    }
+                    else -> {}
                 }
             }
         }
@@ -112,7 +117,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onResume() {
         super.onResume()
-        if (::handler.isInitialized) {
+        if (::handler.isInitialized && slideAdapter.itemCount > 3) {
             handler.postDelayed(autoSlideRunnable, AUTO_SLIDE_INTERVAL)
         }
     }
