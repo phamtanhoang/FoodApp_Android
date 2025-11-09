@@ -4,26 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.pth.androidapp.presentation.main.fragments.home.HomeViewModel" />
-
         <variable
             name="uiState"
             type="com.pth.androidapp.core.common.UiState" />
 
-        <import
-            alias="LoadingState"
-            type="com.pth.androidapp.core.common.UiState.Loading" />
-
-        <import
-            alias="SuccessState"
-            type="com.pth.androidapp.core.common.UiState.Success" />
-
+        <import type="com.pth.androidapp.core.common.UiState.Success" />
         <import
             alias="ErrorState"
             type="com.pth.androidapp.core.common.UiState.Error" />
+        <import type="android.view.View"/>
     </data>
 
 
@@ -47,35 +39,13 @@
                 android:layout_marginBottom="20dp"
                 android:clipToPadding="false">
 
-                <com.facebook.shimmer.ShimmerFrameLayout
-                    android:id="@+id/sliderLoading"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    app:shimmer_auto_start="true"
-                    app:visible="@{uiState instanceof LoadingState}">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:cardCornerRadius="15dp"
-                        app:strokeWidth="0dp">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/shimmer_background" />
-                    </com.google.android.material.card.MaterialCardView>
-                </com.facebook.shimmer.ShimmerFrameLayout>
-
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_slide_home"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingStart="60dp"
                     android:paddingEnd="60dp"
-                    app:visible="@{uiState instanceof SuccessState}" />
+                    app:visible="@{!(uiState instanceof ErrorState)}" />
 
                 <include
                     android:id="@+id/slider_error"
