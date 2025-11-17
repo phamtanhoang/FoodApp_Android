@@ -3,6 +3,7 @@ package com.pth.androidapp.presentation.auth.fragments.register
 import android.content.Context
 import com.pth.androidapp.R
 import com.pth.androidapp.core.base.viewmodels.BaseViewModel
+import com.pth.androidapp.core.common.EMPTY
 import com.pth.androidapp.core.common.InputValidator
 import com.pth.androidapp.core.common.TextFieldState
 import com.pth.androidapp.core.common.UiState
@@ -24,9 +25,9 @@ class RegisterViewModel @Inject constructor(
     private val _registerState = MutableStateFlow<UiState<User>>(UiState.Idle)
     val registerState = _registerState.asStateFlow()
 
-    val emailState = MutableStateFlow(TextFieldState(""))
-    val passwordState = MutableStateFlow(TextFieldState(""))
-    val confirmPasswordState = MutableStateFlow(TextFieldState(""))
+    val emailState = MutableStateFlow(TextFieldState(EMPTY.str))
+    val passwordState = MutableStateFlow(TextFieldState(EMPTY.str))
+    val confirmPasswordState = MutableStateFlow(TextFieldState(EMPTY.str))
 
     fun onRegisterClicked() {
         if (!validateForm()) return

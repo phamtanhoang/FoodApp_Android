@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.pth.androidapp.R
 import com.pth.androidapp.core.base.viewmodels.BaseViewModel
+import com.pth.androidapp.core.common.EMPTY
 import com.pth.androidapp.core.common.InputValidator
 import com.pth.androidapp.core.common.TextFieldState
 import com.pth.androidapp.core.common.UiState
@@ -30,8 +31,8 @@ class LoginViewModel @Inject constructor(
     private val _loginState = MutableStateFlow<UiState<User>>(UiState.Idle)
     val loginState = _loginState.asStateFlow()
 
-    val emailState = MutableStateFlow(TextFieldState(""))
-    val passwordState = MutableStateFlow(TextFieldState(""))
+    val emailState = MutableStateFlow(TextFieldState(EMPTY.str))
+    val passwordState = MutableStateFlow(TextFieldState(EMPTY.str))
     val rememberMeState = MutableStateFlow(false)
 
     init {
